@@ -1,210 +1,706 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Pterodactyl — Demo Login (Replica)</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg-0:#0b1220; --bg-1:#071226; --card:#0b1220; --accent:#4f46e5; --accent-2:#06b6d4;
-    --muted:#9fb7c5; --danger:#ff4d4f;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-    background:
-      radial-gradient(800px 300px at 10% 10%, rgba(79,70,229,0.08), transparent),
-      linear-gradient(180deg,#021226 0%, #061022 50%, #061726 100%);
-    color:#e6eef6; -webkit-font-smoothing:antialiased;
-    display:flex; align-items:center; justify-content:center; padding:28px;
-  }
 
-  /* top demo banner */
-  .demo-banner {
-    position:fixed; left:50%; transform:translateX(-50%); top:18px;
-    background:linear-gradient(90deg,var(--danger),#ff7b7b);
-    color:#051028; padding:8px 14px; border-radius:999px; font-weight:700;
-    box-shadow:0 6px 24px rgba(0,0,0,0.45); z-index:9999;
-    display:flex; gap:10px; align-items:center; font-size:0.9rem;
-  }
-  .demo-banner small{opacity:0.86;font-weight:600}
+    <meta charset="UTF-8">
 
-  .panel {
-    width:100%; max-width:980px; border-radius:12px; overflow:hidden;
-    display:flex; box-shadow: 0 20px 60px rgba(2,6,23,0.65);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  .left {
-    flex:1; padding:42px; display:flex; flex-direction:column; gap:18px;
-    background: linear-gradient(180deg, rgba(79,70,229,0.03), rgba(6,182,212,0.02));
-  }
-  .brand {
-    display:flex; align-items:center; gap:14px;
-  }
-  .logo {
-    width:68px; height:68px; border-radius:12px;
-    background: linear-gradient(135deg,#0ea5e9,#4f46e5);
-    display:flex; align-items:center; justify-content:center; font-weight:800;
-    color:#021; font-size:28px; box-shadow:0 8px 28px rgba(79,70,229,0.08);
-  }
-  h1{margin:0;font-size:1.5rem}
-  p.lead {margin:0;color:var(--muted);font-size:0.95rem}
+    <title>Pterodactyl Login</title>
 
-  .info {margin-top:8px;color:#92b3c2;font-size:0.9rem}
+    <style>
 
-  .right {
-    width:380px; padding:28px; display:flex; flex-direction:column; gap:12px;
-    justify-content:center; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
-  }
+        /* Basic reset and utilities */
 
-  form {display:flex; flex-direction:column; gap:12px}
-  label {font-size:0.8rem; color:var(--muted); margin-bottom:6px; display:block}
-  input[type=text], input[type=password]{
-    width:100%; padding:12px 14px; border-radius:8px; background:transparent;
-    border:1px solid rgba(255,255,255,0.06); color:inherit; outline:none;
-    transition: box-shadow .15s, border-color .15s;
-    font-size:0.95rem;
-  }
-  input:focus{box-shadow:0 10px 30px rgba(6,182,212,0.06); border-color:rgba(6,182,212,0.65)}
-  .actions {display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:6px}
-  .btn {
-    background: linear-gradient(90deg,var(--accent-2),var(--accent));
-    color:#021; padding:10px 16px; border-radius:8px; font-weight:700; border:none; cursor:pointer;
-    box-shadow:0 10px 30px rgba(79,70,229,0.12);
-  }
-  .btn.secondary { background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.04); font-weight:600 }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .small {font-size:0.82rem; color:var(--muted); text-align:center; margin-top:14px}
-  footer{margin-top:8px; color:#91b7c5; text-align:center; font-size:0.82rem}
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
 
-  /* modal */
-  .modal {
-    position:fixed; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none;
-    opacity:0; transition:opacity .18s ease; z-index:999;
-  }
-  .modal.show {opacity:1; pointer-events:auto}
-  .modal-card {
-    width:calc(100% - 40px); max-width:560px; padding:22px; border-radius:12px;
-    background: linear-gradient(180deg,#021526,#052c34); color:#e8fbff; text-align:center;
-    box-shadow:0 30px 90px rgba(2,6,23,0.7);
-  }
-  .modal-card h2{margin:0 0 8px 0}
-  .modal-card p{margin:0 0 14px 0; color:#9fb7c5}
-  .modal-card .ok {background:#e6eef6;color:#012;padding:10px 14px;border-radius:8px;border:none;font-weight:700;cursor:pointer}
+        
 
-  /* responsive */
-  @media(max-width:880px){ .panel{flex-direction:column} .right{width:100%} .left{padding:22px} .logo{width:56px;height:56px}}
-</style>
+        /* Gradient background */
+
+        .bg-gradient { 
+
+            min-height: 100vh; 
+
+            background: linear-gradient(to bottom right, #4b5563, #374151, #1f2937); 
+
+            display: flex; 
+
+            align-items: center; 
+
+            justify-content: center; 
+
+            padding: 1rem; 
+
+        }
+
+        
+
+        /* Main container */
+
+        .main-container { width: 100%; max-width: 28rem; }
+
+        
+
+        /* Header */
+
+        .header { text-align: center; margin-bottom: 2rem; }
+
+        .header h1 { font-size: 1.875rem; font-weight: 300; color: white; margin-bottom: 0.5rem; }
+
+        
+
+        /* Card */
+
+        .card { background: white; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border: none; border-radius: 0.5rem; overflow: hidden; }
+
+        .card-header { text-align: center; padding-bottom: 1.5rem; padding-top: 2rem; }
+
+        .card-header img { width: 8rem; height: 8rem; object-fit: contain; }
+
+        
+
+        .card-content { padding: 2rem; padding-top: 0; }
+
+        
+
+        /* Form styles */
+
+        .form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+        .label { font-size: 0.875rem; font-weight: 500; color: #4b5563; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        .input { 
+
+            width: 100%; height: 3rem; border: 2px solid #e5e7eb; border-radius: 0.375rem; 
+
+            padding: 0 0.75rem; font-size: 1rem; transition: border-color 0.2s; 
+
+        }
+
+        .input:focus { outline: none; border-color: #3b82f6; }
+
+        .input.error { border-color: #ef4444; } /* Tambahan: Border merah jika error */
+
+        .error { 
+
+            color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem; 
+
+            font-weight: 400; /* Lebih jelas */
+
+        }
+
+        .captcha-error { /* Error untuk CAPTCHA, di atas tombol */
+
+            color: #ef4444; font-size: 0.875rem; text-align: center; 
+
+            margin-bottom: 0.5rem; font-weight: 400;
+
+        }
+
+        
+
+        /* Button */
+
+        .btn { 
+
+            width: 100%; height: 3.5rem; background: #3b82f6; color: white; 
+
+            font-weight: 500; font-size: 1.125rem; border: none; border-radius: 0.375rem; 
+
+            cursor: pointer; transition: background-color 0.2s; 
+
+        }
+
+        .btn:hover:not(:disabled) { background: #2563eb; }
+
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .btn-loading { display: flex; align-items: center; justify-content: center; gap: 0.75rem; }
+
+        .spinner { width: 1rem; height: 1rem; border: 2px solid #ffffff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        
+
+        /* Forgot password */
+
+        .forgot { text-align: center; padding-top: 1rem; }
+
+        .forgot a { color: #6b7280; text-decoration: none; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.2s; }
+
+        .forgot a:hover { color: #374151; }
+
+        
+
+        /* CAPTCHA */
+
+        .captcha-container { margin-top: 1.5rem; display: flex; justify-content: center; }
+
+        .captcha { 
+
+            width: 18rem; height: 5rem; background: #f9fafb; border: 2px solid #e5e7eb; 
+
+            border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; 
+
+            cursor: pointer; transition: background-color 0.2s; 
+
+        }
+
+        .captcha:hover { background: #f3f4f6; }
+
+        .captcha-content { display: flex; align-items: center; gap: 0.75rem; }
+
+        .captcha-checkbox { 
+
+            width: 1.5rem; height: 1.5rem; border: 2px solid #9ca3af; border-radius: 0.125rem; 
+
+            display: flex; align-items: center; justify-content: center; position: relative; 
+
+        }
+
+        .captcha-checkbox.checked { background: #10b981; border-color: #10b981; }
+
+        .captcha-checkbox.checked::after { content: '✓'; color: white; font-size: 0.75rem; font-weight: bold; }
+
+        .captcha-checkbox.loading::before { 
+
+            content: ''; width: 1rem; height: 1rem; border: 2px solid #3b82f6; border-top: transparent; 
+
+            border-radius: 50%; animation: spin 1s linear infinite; 
+
+        }
+
+        .captcha-text { font-size: 0.875rem; color: #4b5563; }
+
+        .captcha-img { width: 2rem; height: 2rem; }
+
+        
+
+        /* Footer */
+
+        .footer { text-align: center; margin-top: 2rem; padding-bottom: 2rem; }
+
+        .footer p { color: #9ca3af; font-size: 0.875rem; }
+
+        .footer-links { display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem; }
+
+        .footer-links a { color: #9ca3af; text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+
+        .footer-links a:hover { color: #d1d5db; }
+
+        .footer-separator { color: #4b5563; }
+
+        
+
+        /* Video Modal - Fullscreen tanpa kontrol */
+
+        .video-modal { 
+
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+
+            background: black; display: flex; align-items: center; justify-content: center; 
+
+            z-index: 50; padding: 1rem; 
+
+        }
+
+        .video-modal video { 
+
+            width: 100%; height: 100%; object-fit: cover; 
+
+            max-width: 100%; max-height: 100%; 
+
+        }
+
+        
+
+        /* Hidden class */
+
+        .hidden { display: none; }
+
+        
+
+        /* Responsive */
+
+        @media (max-width: 640px) { .main-container { padding: 0 1rem; } }
+
+    </style>
+
 </head>
+
 <body>
-  <div class="demo-banner" role="status" aria-live="polite">
-    ⚠️ DEMO / PARODY — TIDAK MENYIMPAN DATA • <small>JANGAN MASUKKAN KREDENSIAL ASLI</small>
-  </div>
 
-  <main class="panel" role="main" aria-label="Pterodactyl demo login">
-    <section class="left" aria-hidden="true">
-      <div class="brand" aria-hidden="true">
-        <div class="logo" aria-hidden="true">P</div>
-        <div>
-          <h1>Pterodactyl Panel</h1>
-          <div class="info">Replica tampilan login — hanya demo. Ganti logo di <code>/assets/logo.png</code></div>
+    <div class="bg-gradient">
+
+        <!-- Main Content -->
+
+        <div class="main-container">
+
+            <!-- Header -->
+
+            <div class="header">
+
+                <h1>Login to Continue</h1>
+
+            </div>
+
+
+
+            <!-- Login Card -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+
+                        <img 
+
+                            src="https://placeholder-image-service.onrender.com/image/200x200?prompt=Cartoon pterodactyl dinosaur character wearing gaming headset, brown and orange colors, friendly expression, digital art style&id=c8800c28-b853-4c29-bbaf-dc6f67965dc8&customer_id=cus_SMJuU0KuujAHDE"
+
+                            alt="Pterodactyl mascot character wearing gaming headset with brown and orange coloring"
+
+                        />
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="card-content">
+
+                    <form id="loginForm" class="form" onsubmit="handleSubmit(event)">
+
+                        <!-- Username/Email Field -->
+
+                        <div class="form-group">
+
+                            <label for="username" class="label">Username or Email</label>
+
+                            <input 
+
+                                id="username" 
+
+                                name="username" 
+
+                                type="text" 
+
+                                class="input" 
+
+                                required 
+
+                                placeholder="Enter your username or email"
+
+                            />
+
+                            <p id="usernameError" class="error hidden">Please enter your username or email</p>
+
+                        </div>
+
+
+
+                        <!-- Password Field -->
+
+                        <div class="form-group">
+
+                            <label for="password" class="label">Password</label>
+
+                            <input 
+
+                                id="password" 
+
+                                name="password" 
+
+                                type="password" 
+
+                                class="input" 
+
+                                required 
+
+                                placeholder="Enter your password"
+
+                            />
+
+                            <p id="passwordError" class="error hidden">Please enter your password</p>
+
+                        </div>
+
+
+
+                        <!-- Error untuk CAPTCHA (muncul di atas tombol) -->
+
+                        <p id="captchaError" class="captcha-error hidden">Please complete CAPTCHA verification</p>
+
+
+
+                        <!-- Login Button -->
+
+                        <button type="submit" id="loginBtn" class="btn">LOGIN</button>
+
+
+
+                        <!-- Forgot Password Link -->
+
+                        <div class="forgot">
+
+                            <a href="#">Forgot Password?</a>
+
+                        </div>
+
+                    </form>
+
+
+
+                    <!-- reCAPTCHA Interactive -->
+
+                    <div class="captcha-container">
+
+                        <div id="captcha" class="captcha" onclick="handleCaptchaClick()">
+
+                            <div class="captcha-content">
+
+                                <div id="captchaCheckbox" class="captcha-checkbox"></div>
+
+                                <span class="captcha-text">I'm not a robot</span>
+
+                                <img 
+
+                                    src="https://placeholder-image-service.onrender.com/image/40x40?prompt=reCAPTCHA logo icon, simple geometric design&id=c8800c28-b853-4c29-bbaf-dc6f67965dc8&customer_id=cus_SMJuU0KuujAHDE"
+
+                                    alt="reCAPTCHA verification widget logo"
+
+                                    class="captcha-img"
+
+                                />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Footer -->
+
+            <div class="footer">
+
+                <p>© 2015 - 2024 Pterodactyl Software</p>
+
+                <div class="footer-links">
+
+                    <a href="#">Privacy</a>
+
+                    <span class="footer-separator">-</span>
+
+                    <a href="#">Terms</a>
+
+                </div>
+
+            </div>
+
         </div>
-      </div>
 
-      <p class="lead">Manage your game servers with an elegant interface — this is only the login UI for demonstration.</p>
-      <div class="info">Original project: <a href="https://pterodactyl.io" target="_blank" style="color:var(--accent-2)">pterodactyl.io</a></div>
-    </section>
 
-    <aside class="right" aria-label="Login form">
-      <form id="loginForm" autocomplete="off" onsubmit="return handleDemoLogin(event)">
-        <div>
-          <label for="user">E-mail / Username</label>
-          <input id="user" name="user" type="text" required placeholder="you@example.com" aria-required="true" />
+
+        <!-- Fullscreen Video Modal - Tanpa Kontrol, dengan Loop -->
+
+        <div id="videoModal" class="video-modal hidden">
+
+            <video autoplay playsinline loop>
+
+                <!-- Ganti source video di sini dengan video Anda sendiri -->
+
+                <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4" />
+
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+
+                Your browser does not support the video tag.
+
+            </video>
+
         </div>
 
-        <div>
-          <label for="pass">Password</label>
-          <input id="pass" name="pass" type="password" required placeholder="••••••••" aria-required="true" />
-        </div>
-
-        <div class="actions">
-          <button type="button" class="btn secondary" onclick="fillDemo()">Use demo creds</button>
-          <button type="submit" class="btn">Sign In</button>
-        </div>
-
-        <div class="small">This is a static demo page only — credentials are never sent. Inputs are cleared after submit.</div>
-      </form>
-
-      <footer>Need help? Visit <a href="https://pterodactyl.io" target="_blank" style="color:var(--accent)">pterodactyl.io</a></footer>
-    </aside>
-  </main>
-
-  <!-- modal -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card" role="document">
-      <h2>🤣 Kamu kena prank — Demo Pterodactyl</h2>
-      <p>Ini adalah replika UI untuk tujuan demo/parodi saja. Tidak ada data yang dikirim atau disimpan.</p>
-      <button class="ok" onclick="closeModal()">Oke, saya mengerti</button>
     </div>
-  </div>
 
-<script>
-  // PRECAUTIONS:
-  // - Prevent any network submission
-  // - Block paste into password
-  // - Clear fields on "submit"
 
-  const form = document.getElementById('loginForm');
-  const modal = document.getElementById('modal');
-  const pass = document.getElementById('pass');
 
-  // Block paste into password field to discourage pasting real passwords
-  pass.addEventListener('paste', (e) => {
-    e.preventDefault();
-    alert('Paste has been disabled on this demo for safety. Do not enter real credentials.');
-  });
+    <script>
 
-  function handleDemoLogin(e){
-    e.preventDefault(); // absolutely no sending
-    // show modal message
-    showModal();
-    // clear inputs (safety)
-    form.reset();
-    // blur fields quickly to avoid autofill leaking
-    setTimeout(()=> {
-      document.getElementById('user').blur();
-      document.getElementById('pass').blur();
-    }, 200);
-    return false;
-  }
+        // CAPTCHA State: 'unchecked', 'loading', 'checked'
 
-  function fillDemo(){
-    document.getElementById('user').value = 'demo@local';
-    document.getElementById('pass').value = 'demopass';
-  }
+        let captchaState = 'unchecked';
 
-  function showModal(){
-    modal.classList.add('show');
-    modal.setAttribute('aria-hidden','false');
-  }
-  function closeModal(){
-    modal.classList.remove('show');
-    modal.setAttribute('aria-hidden','true');
-  }
 
-  // Accessibility: close modal on ESC or clicking outside
-  window.addEventListener('keydown',(ev)=>{
-    if(ev.key === 'Escape' && modal.classList.contains('show')) closeModal();
-  });
-  modal.addEventListener('click',(ev)=>{
-    if(ev.target === modal) closeModal();
-  });
 
-  // Extra: prevent context menu on form to discourage quick copy of values (optional)
-  // form.addEventListener('contextmenu', e => e.preventDefault());
-</script>
+        function handleCaptchaClick() {
+
+            if (captchaState === 'unchecked') {
+
+                const checkbox = document.getElementById('captchaCheckbox');
+
+                checkbox.classList.add('loading');
+
+                captchaState = 'loading';
+
+
+
+                // Simulate verification
+
+                setTimeout(() => {
+
+                    checkbox.classList.remove('loading');
+
+                    checkbox.classList.add('checked');
+
+                    captchaState = 'checked';
+
+                    // Hilangkan error CAPTCHA jika sudah checked
+
+                    hideCaptchaError();
+
+                }, 2000);
+
+            }
+
+        }
+
+
+
+        function showError(field, message) {
+
+            const errorEl = document.getElementById(field + 'Error');
+
+            errorEl.textContent = message;
+
+            errorEl.classList.remove('hidden');
+
+            // Tambahan: Tambah class error ke input untuk border merah
+
+            const inputEl = document.getElementById(field);
+
+            inputEl.classList.add('error');
+
+        }
+
+
+
+        function hideError(field) {
+
+            const errorEl = document.getElementById(field + 'Error');
+
+            errorEl.classList.add('hidden');
+
+            // Hilangkan class error dari input
+
+            const inputEl = document.getElementById(field);
+
+            inputEl.classList.remove('error');
+
+        }
+
+
+
+        function clearErrors() {
+
+            ['username', 'password'].forEach(field => hideError(field));
+
+            hideCaptchaError();
+
+        }
+
+
+
+        function hideCaptchaError() {
+
+            const errorEl = document.getElementById('captchaError');
+
+            errorEl.classList.add('hidden');
+
+        }
+
+
+
+        function showCaptchaError() {
+
+            const errorEl = document.getElementById('captchaError');
+
+            errorEl.classList.remove('hidden');
+
+        }
+
+
+
+        // Tambahan: Clear error saat user mulai typing
+
+        document.getElementById('username').addEventListener('input', () => hideError('username'));
+
+        document.getElementById('password').addEventListener('input', () => hideError('password'));
+
+
+
+        function handleSubmit(event) {
+
+            event.preventDefault();
+
+            clearErrors();
+
+
+
+            const username = document.getElementById('username').value.trim();
+
+            const password = document.getElementById('password').value.trim();
+
+            const btn = document.getElementById('loginBtn');
+
+            const hasError = false;
+
+
+
+            if (!username) {
+
+                showError('username', 'Please enter your username or email');
+
+                hasError = true;
+
+            }
+
+            if (!password) {
+
+                showError('password', 'Please enter your password');
+
+                hasError = true;
+
+            }
+
+            if (captchaState !== 'checked') {
+
+                showCaptchaError(); // Tampilkan error di atas tombol, bukan alert
+
+                hasError = true;
+
+            }
+
+
+
+            if (hasError) return;
+
+
+
+            // Simulate loading
+
+            btn.disabled = true;
+
+            btn.innerHTML = '<span class="btn-loading"><div class="spinner"></div> LOGGING IN...</span>';
+
+
+
+            // Simulate login process
+
+            setTimeout(() => {
+
+                console.log('Login attempt:', { username }); // Don't log password!
+
+                btn.disabled = false;
+
+                btn.innerHTML = 'LOGIN';
+
+                showVideo();
+
+            }, 1500);
+
+        }
+
+
+
+        function showVideo() {
+
+            const modal = document.getElementById('videoModal');
+
+            const video = document.querySelector('video');
+
+            modal.classList.remove('hidden');
+
+            
+
+            // Atur volume ke 100%: 1.0 = 100% dari volume sistem
+
+            video.volume = 1.0; // 100% volume (maksimal)
+
+            video.muted = false; // Pastikan suara TIDAK dimute
+
+            
+
+            // Log untuk debug: Buka Console (F12) untuk lihat
+
+            console.log('Video mulai loop dengan volume:', video.volume * 100 + '%');
+
+            console.log('Muted status:', video.muted);
+
+            
+
+            // Autoplay video (loop sudah otomatis via atribut 'loop')
+
+            video.play().catch(e => {
+
+                console.error('Video play failed:', e);
+
+                // Jika gagal autoplay, coba unmute dan play ulang
+
+                video.muted = false;
+
+                video.play();
+
+            });
+
+            
+
+            // Hanya tutup otomatis jika error (tidak tutup saat ended, karena loop)
+
+            const closeVideoOnError = () => {
+
+                console.log('Video error, menutup modal');
+
+                modal.classList.add('hidden');
+
+                video.pause();
+
+                video.currentTime = 0;
+
+                video.removeEventListener('error', closeVideoOnError);
+
+            };
+
+            
+
+            video.addEventListener('error', closeVideoOnError);
+
+            
+
+            // Tidak ada listener 'ended' - biarkan loop selamanya
+
+        }
+
+
+
+        // Tidak ada tombol close manual atau shortcut Escape - video loop terus tanpa tutup otomatis
+
+    </script>
+
 </body>
+
 </html>
+
