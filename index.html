@@ -1,194 +1,106 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Pterodactyl Panel — Login</title>
+<title>Pterodactyl — Demo Login (Replica)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0f172a; --card:#0b1220; --accent:#06b6d4; --muted:#94a3b8;
+    --bg:#0b1220; --panel:#071026; --accent:#06b6d4; --muted:#9fb7c5; --glass:rgba(255,255,255,0.03);
   }
   *{box-sizing:border-box}
   body{
-    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(180deg,#001219 0%, #04323a 100%);
-    font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    margin:0; min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background:
+      radial-gradient(800px 400px at 10% 10%, rgba(6,182,212,0.06), transparent),
+      linear-gradient(180deg,#021018 0%, #071026 100%);
     color:#e6eef6;
   }
-  .wrap{width:100%;max-width:980px;padding:28px;}
-  .panel{
-    display:flex; gap:28px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:14px; overflow:hidden; box-shadow:0 12px 40px rgba(2,6,23,0.6);
+  .card{
+    width:calc(100% - 40px);
+    max-width:980px;
+    display:flex;
+    gap:28px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:12px;
+    box-shadow:0 12px 40px rgba(2,6,23,0.6);
+    overflow:hidden;
   }
-
-  /* left preview */
   .left{
-    flex:1; padding:36px; background:
-    linear-gradient(180deg, rgba(6,182,212,0.08), rgba(59,130,246,0.04));
-    display:flex; flex-direction:column; gap:18px; justify-content:center;
+    flex:1; padding:34px; background:linear-gradient(180deg, rgba(6,182,212,0.03), rgba(37,99,235,0.015));
   }
-  .logo{
-    display:flex; gap:12px; align-items:center;
-  }
-  .logo .icon{
-    width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#2563eb);
-    display:flex;align-items:center;justify-content:center;font-weight:700;color:#022;
-    box-shadow:0 6px 18px rgba(6,182,212,0.12);
-  }
-  h2{margin:0;font-size:1.35rem}
-  p.lead{margin:0;color:var(--muted)}
-  .meta{margin-top:8px;color:#9fb7c5;font-size:0.9rem}
+  .logo{display:flex;align-items:center;gap:14px}
+  .logo .icon{width:54px;height:54px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#2563eb);display:flex;align-items:center;justify-content:center;font-weight:800;color:#012;text-shadow:0 1px 0 rgba(255,255,255,0.1)}
+  h1{margin:8px 0 6px;font-size:1.45rem}
+  p.lead{margin:0;color:var(--muted);font-size:0.95rem}
+  .meta{margin-top:14px;color:#95b4c2;font-size:0.9rem}
 
-  /* right login box */
-  .right{width:380px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));padding:28px;display:flex;flex-direction:column;gap:12px;justify-content:center;}
-  .field{display:flex;flex-direction:column;gap:6px}
-  label{font-size:0.85rem;color:#9fb7c5}
+  .right{
+    width:360px;padding:28px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    display:flex;flex-direction:column;gap:12px;justify-content:center;
+  }
+  label{font-size:0.85rem;color:var(--muted);display:block;margin-bottom:6px}
   input[type=text], input[type=password]{
-    background:transparent;border:1px solid rgba(255,255,255,0.06); padding:12px 14px;border-radius:10px;color:inherit;
-    outline:none; transition:box-shadow .18s, border-color .18s;
+    width:100%; padding:12px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.06);
+    background:transparent;color:inherit; outline:none;
   }
-  input:focus{box-shadow:0 6px 18px rgba(6,182,212,0.06); border-color:rgba(6,182,212,0.75)}
+  input:focus{box-shadow:0 6px 18px rgba(6,182,212,0.06); border-color:rgba(6,182,212,0.7)}
   .btn{
-    margin-top:8px;padding:12px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--accent),#2563eb);
-    color:#022;font-weight:700;cursor:pointer;font-size:1rem;box-shadow:0 8px 28px rgba(37,99,235,0.12);
+    margin-top:10px;padding:12px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--accent),#2563eb);
+    color:#021; font-weight:700; cursor:pointer;
   }
-  .note{font-size:0.78rem;color:var(--muted);margin-top:8px}
-  footer.small{font-size:0.75rem;color:#91b7c5;margin-top:12px;text-align:center}
+  .small{font-size:0.78rem;color:var(--muted);margin-top:8px}
 
-  /* prank modal */
-  .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);opacity:0;pointer-events:none;transition:opacity .2s}
-  .modal.show{opacity:1;pointer-events:auto}
-  .modal-card{background:linear-gradient(180deg,#001219,#042f36);padding:28px;border-radius:12px;color:#e8fbff;width:90%;max-width:520px;text-align:center;box-shadow:0 20px 60px rgba(2,6,23,0.6)}
-  .modal-card h3{margin:0 0 8px 0}
-  .modal-card p{margin:0 0 16px 0;color:#9fb7c5}
-  .close{background:#e6eef6;color:#022;padding:10px 16px;border-radius:8px;border:none;font-weight:600;cursor:pointer}
-  .confetti{position:absolute;inset:0;pointer-events:none}
+  footer{padding:12px;text-align:center;color:#91b7c5;font-size:0.85rem}
 
   /* responsive */
-  @media(max-width:820px){
-    .panel{flex-direction:column}
-    .right{width:100%}
-  }
+  @media(max-width:820px){ .card{flex-direction:column} .right{width:100%} }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="panel" role="main" aria-label="Prank Login Panel">
-      <div class="left" aria-hidden="true">
-        <div class="logo">
-          <div class="icon">P</div>
-          <div>
-            <h2>Pterodactyl Panel</h2>
-            <div class="meta">Replica lucu — Ichal Prank Edition</div>
-          </div>
+  <div class="card" role="main">
+    <div class="left" aria-hidden="true">
+      <div class="logo">
+        <div class="icon">P</div>
+        <div>
+          <h1>Pterodactyl Panel</h1>
+          <div class="meta">Replica for demo — replace with your logo in <code>/assets</code></div>
         </div>
-        <p class="lead">Silakan masuk untuk mengelola servermu. (Atau... kira-kira tombol ini aman nggak ya?)</p>
-        <div class="note">Catatan: Halaman ini adalah parodi — <strong>tidak menyimpan</strong> data apa pun.</div>
       </div>
 
-      <div class="right">
-        <form id="loginForm" onsubmit="return prankLogin(event)" autocomplete="off" aria-label="Form login parodi">
-          <div class="field">
-            <label for="user">E-mail atau Username</label>
-            <input id="user" name="user" type="text" placeholder="nama@contoh.com" required>
-          </div>
-          <div class="field">
-            <label for="pass">Password</label>
-            <input id="pass" name="pass" type="password" placeholder="••••••••" required>
-          </div>
-
-          <button class="btn" type="submit">Sign In</button>
-          <div class="note">Masuk hanya demo — data tidak dikirim. Coba saja & lihat reaksi temanmu 😏</div>
-        </form>
-
-        <footer class="small">Jika ini nyata, berarti kamu butuh kopi. ☕</footer>
-      </div>
+      <p class="lead" style="margin-top:18px">
+        Manage your game servers with a beautiful interface — this is a static demo of the login UI only.
+      </p>
     </div>
-  </div>
 
-  <!-- modal prank -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card">
-      <h3>🤣 Eh, kamu kena prank!</h3>
-      <p>Ini cuma parodi — gak ada data yang disimpan. Jangan pake password asli ya bro/sis.</p>
-      <button class="close" onclick="closeModal()">Oke, paham ✌️</button>
-      <canvas class="confetti" id="confettiCanvas"></canvas>
+    <div class="right" aria-label="Login form (demo)">
+      <form id="demoLogin" onsubmit="return demoLogin(event)" autocomplete="off">
+        <div>
+          <label for="username">E-mail / Username</label>
+          <input id="username" name="username" type="text" placeholder="name@example.com" required>
+        </div>
+        <div style="margin-top:10px">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" placeholder="••••••••" required>
+        </div>
+        <button class="btn" type="submit">Sign In</button>
+        <div class="small">This is a demo page — credentials are not sent anywhere.</div>
+      </form>
+      <footer>Need help? Visit <a href="https://pterodactyl.io" target="_blank" style="color:var(--accent)">pterodactyl.io</a></footer>
     </div>
   </div>
 
 <script>
-  // Pastikan form TIDAK mengirim ke server manapun.
-  function prankLogin(e){
-    e.preventDefault(); // blokir submit
-    // Ambil nilai tapi TIDAK menyimpan
-    const user = document.getElementById('user').value || '';
-    const pass = document.getElementById('pass').value ? '●'.repeat(6) : '';
-    showModal(user, pass);
+  function demoLogin(e){
+    e.preventDefault();
+    // show friendly message, DO NOT send data anywhere
+    alert("Demo login: Ini hanya tampilan. Jangan masukkan password asli!");
+    document.getElementById('demoLogin').reset();
     return false;
   }
-
-  // Modal UI
-  const modal = document.getElementById('modal');
-  function showModal(user, pass){
-    modal.classList.add('show');
-    modal.setAttribute('aria-hidden','false');
-    // start confetti
-    startConfetti();
-  }
-  function closeModal(){
-    modal.classList.remove('show');
-    modal.setAttribute('aria-hidden','true');
-    stopConfetti();
-    // clear inputs for safety
-    document.getElementById('loginForm').reset();
-  }
-
-  /* Simple confetti (canvas) — ringan dan safe */
-  const canvas = document.getElementById('confettiCanvas');
-  const ctx = canvas.getContext('2d');
-  let confettis = [], confettiTimer=null;
-  function resizeCanvas(){ canvas.width = canvas.clientWidth; canvas.height = canvas.clientHeight; }
-  window.addEventListener('resize', resizeCanvas);
-  function startConfetti(){
-    resizeCanvas();
-    confettis = [];
-    for(let i=0;i<60;i++){
-      confettis.push({
-        x: Math.random()*canvas.width,
-        y: Math.random()*canvas.height - canvas.height,
-        r: 4+Math.random()*8,
-        color: `hsl(${Math.random()*360}deg 80% 60%)`,
-        velX: -1 + Math.random()*2,
-        velY: 2 + Math.random()*4,
-        rot: Math.random()*360
-      });
-    }
-    if(confettiTimer) cancelAnimationFrame(confettiTimer);
-    confettiLoop();
-  }
-  function confettiLoop(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    confettis.forEach((c)=>{
-      c.x += c.velX;
-      c.y += c.velY;
-      c.rot += c.velX*2;
-      ctx.save();
-      ctx.translate(c.x,c.y);
-      ctx.rotate(c.rot*Math.PI/180);
-      ctx.fillStyle = c.color;
-      ctx.fillRect(-c.r/2, -c.r/2, c.r, c.r*0.6);
-      ctx.restore();
-    });
-    confettis = confettis.filter(c => c.y < canvas.height + 40);
-    if(confettis.length > 0) confettiTimer = requestAnimationFrame(confettiLoop);
-  }
-  function stopConfetti(){ if(confettiTimer) cancelAnimationFrame(confettiTimer); ctx.clearRect(0,0,canvas.width,canvas.height); }
-
-  // Accessibility: allow ESC to close modal
-  window.addEventListener('keydown', (ev)=>{
-    if(ev.key === 'Escape' && modal.classList.contains('show')) closeModal();
-  });
 </script>
 </body>
 </html>
